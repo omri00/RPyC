@@ -15,6 +15,8 @@ class RPyCServer(rpyc.Service):
                 file_content = file.read()
         except FileNotFoundError:
             return "The file was not found"
+        except PermissionError:
+            return "Permission denied :("
         return file_content
 
     def exposed_put_file(self, file_name, file_content):
@@ -22,9 +24,14 @@ class RPyCServer(rpyc.Service):
         Let the client put a string in a file on the server
         :param file_name: the file's name
         :param file_content: the file's content
+        :return: A status message
         """
-        with open(self.ROOT_FOLDER+file_name, "w") as file:
-            file.write(file_content)
+        try:
+            with open(self.ROOT_FOLDER+file_name, "w") as file:
+                file.write(file_content)
+                return "The file was added successfully"
+        except PermissionError:
+            return "Permission denied :("
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ def write_in_server(client, file_name):
     :param file_name: the file's name
     """
     content = input("Enter the content you want the file to have\n")
-    client.root.put_file(file_name, content)
+    print(client.root.put_file(file_name, content))
 
 
 if __name__ == '__main__':
