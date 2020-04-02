@@ -1,8 +1,10 @@
+from os.path import join
+
 import rpyc
 
 
 class RPyCServer(rpyc.Service):
-    ROOT_FOLDER = "files\\"
+    ROOT_FOLDER = "files"
 
     def exposed_get_file(self, file_name):
         """
@@ -11,7 +13,7 @@ class RPyCServer(rpyc.Service):
         :return: the content of the wanted file
         """
         try:
-            with open(self.ROOT_FOLDER + file_name, "r") as file:
+            with open(join(self.ROOT_FOLDER, file_name), "r") as file:
                 file_content = file.read()
         except FileNotFoundError:
             return "The file was not found"
@@ -29,7 +31,7 @@ class RPyCServer(rpyc.Service):
         :return: A status message
         """
         try:
-            with open(self.ROOT_FOLDER + file_name, "w") as file:
+            with open(join(self.ROOT_FOLDER, file_name), "w") as file:
                 file.write(file_content)
                 return "The file was added successfully"
         except PermissionError:
