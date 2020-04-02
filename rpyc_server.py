@@ -22,6 +22,8 @@ class RPyCServer(Service):
             return "Permission denied :("
         except OSError:
             return "Couldn't read from the file"
+        except ValueError:
+            return "The given file name was not a string"
         return file_content
 
     def exposed_put_file(self, file_name, file_content):
@@ -39,6 +41,8 @@ class RPyCServer(Service):
             return "Permission denied :("
         except OSError:
             return "Couldn't write in the file"
+        except ValueError:
+            return "The given file name was not a string"
 
 
 if __name__ == "__main__":
