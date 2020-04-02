@@ -1,9 +1,10 @@
 from os.path import join
 
-import rpyc
+from rpyc import Service
+from rpyc.utils.server import ThreadedServer
 
 
-class RPyCServer(rpyc.Service):
+class RPyCServer(Service):
     ROOT_FOLDER = "files"
 
     def exposed_get_file(self, file_name):
@@ -41,7 +42,5 @@ class RPyCServer(rpyc.Service):
 
 
 if __name__ == "__main__":
-    from rpyc.utils.server import ThreadedServer
-
     t = ThreadedServer(RPyCServer, port=25565)
     t.start()
